@@ -1,13 +1,18 @@
 package com.example.knapsack.Fragments;
 
+import android.Manifest;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.app.ActivityCompat;
+import androidx.core.content.ContextCompat;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -28,24 +33,25 @@ public class FragmentAlmacenamiento extends Fragment {
             @Override
             public void onClick(View v) {
 
-                hola.setText("DEBUG");
-                FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
-                FragmentTransaction transaction = fragmentManager.beginTransaction();
-                transaction.setReorderingAllowed(true);
 
-                // Replace whatever is in the fragment_container view with this fragment
-
-                transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance("spiderman", ""));
-
-                // Commit the transaction
-                transaction.commit();
-
-
-                //Ocultar botones
-                storageBtn.setVisibility(View.GONE);
-                hola.setVisibility(View.GONE);
                 if(checkPermission()){
                     hola.setText("Permiso permitido");
+                    hola.setText("DEBUG");
+                    FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                    FragmentTransaction transaction = fragmentManager.beginTransaction();
+                    transaction.setReorderingAllowed(true);
+
+                    // Replace whatever is in the fragment_container view with this fragment
+
+                    transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance("spiderman", ""));
+                    //getActivity().prueba("s");
+                    // Commit the transaction
+                    transaction.commit();
+
+
+                    //Ocultar botones
+                    storageBtn.setVisibility(View.GONE);
+                    hola.setVisibility(View.GONE);
                     //permission allowed
                 }else{
                     hola.setText("Permiso no permitido");
@@ -60,19 +66,18 @@ public class FragmentAlmacenamiento extends Fragment {
 
 
 
-    private boolean checkPermission(){
-       /* int result = ContextCompat.checkSelfPermission(perfilActivity.this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+    private boolean checkPermission(){ int result = ContextCompat.checkSelfPermission(getActivity(), Manifest.permission.WRITE_EXTERNAL_STORAGE);
         if(result == PackageManager.PERMISSION_GRANTED){
             return true;
-        }else*/
+        }else
         return false;
     }
 
     private void requestPermission(){
-       /* if(ActivityCompat.shouldShowRequestPermissionRationale(perfilActivity.this,Manifest.permission.WRITE_EXTERNAL_STORAGE)){
-            Toast.makeText(perfilActivity.this,"Storage permission is requires,please allow from settings",Toast.LENGTH_SHORT).show();
+       if(ActivityCompat.shouldShowRequestPermissionRationale(getActivity(),Manifest.permission.WRITE_EXTERNAL_STORAGE)){
+            Toast.makeText(getActivity(),"Storage permission is requires,please allow from settings",Toast.LENGTH_SHORT).show();
         }else
-            ActivityCompat.requestPermissions(perfilActivity.this,new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},111);
-    */
+            ActivityCompat.requestPermissions(getActivity(),new String[] {Manifest.permission.WRITE_EXTERNAL_STORAGE},111);
+
     }
 }

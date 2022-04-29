@@ -5,6 +5,7 @@ import android.os.Bundle;
 
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
@@ -12,13 +13,18 @@ import android.os.Environment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.knapsack.MyAdapter;
 import com.example.knapsack.R;
+import com.example.knapsack.goku.nav_menu;
 
 import java.io.File;
+import java.io.IOException;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 
 /**
  * A simple {@link Fragment} subclass.
@@ -30,8 +36,9 @@ public class Filelist extends Fragment {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static String path = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
+    private static String ARG_PARAM2 = "param2";
+    private static String level = "level";
+private  static int nivel;
     // TODO: Rename and change types of parameters
     private String mParam1;
     private String mParam2;
@@ -49,11 +56,12 @@ public class Filelist extends Fragment {
      * @return A new instance of fragment Filelist.
      */
     // TODO: Rename and change types and number of parameters
-    public static Filelist newInstance(String param1, String param2) {
+    public static Filelist newInstance(String param1, String param2, int nivel) {
         Filelist fragment = new Filelist();
         Bundle args = new Bundle();
         args.putString(path, param1);
         args.putString(ARG_PARAM2, param2);
+        args.putInt(level, nivel);
         fragment.setArguments(args);
         return fragment;
     }
@@ -64,6 +72,7 @@ public class Filelist extends Fragment {
         if (getArguments() != null) {
             mParam1 = getArguments().getString(path);
             mParam2 = getArguments().getString(ARG_PARAM2);
+            nivel = getArguments().getInt(level);
         }
     }
 
@@ -74,14 +83,41 @@ public class Filelist extends Fragment {
         super.onCreate(savedInstanceState);
         View view = inflater.inflate(R.layout.fragment_filelist,container,false);
         RecyclerView recyclerView = view.findViewById(R.id.recycler_view);
+        Button back= view.findViewById(R.id.back_button);
         TextView noFilesText = view.findViewById(R.id.nofiles_textview);
+        Toast.makeText(getActivity(), mParam2, Toast.LENGTH_SHORT).show();
+        back.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                File file_father= new File(mParam2);
+                if (nivel>0 && mParam2 != "superman" && mParam1 != "spiderman" && mParam2!="/storage"&& mParam1!="/storage/emulated/0" && mParam2!="/storage/emulated/0" && mParam2!="/storage/emulated" && file_father.getParent().toString()!="/storage") {
+                   // Toast.makeText(getActivity(), "No, -"+ file_father.getParent().toString()+"- es diferente de "  , Toast.LENGTH_SHORT).show();
+                    try {
 
+                        FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
+                        FragmentTransaction transaction = fragmentManager.beginTransaction();
+                        transaction.setReorderingAllowed(true);
+
+                        // Replace whatever is in the fragment_container view with this fragment
+
+                        File file = new File(mParam2);
+                        transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance(mParam2, file.getParent().toString(), nivel-1));
+                        //getActivity().prueba("s");
+                        // Commit the transaction
+                        transaction.commit();
+                    } catch (Exception e) {
+                        Toast.makeText(getActivity(), "ERROR", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
+        });
         if(mParam1=="spiderman")
         {
-            Toast.makeText(getActivity(),mParam1,Toast.LENGTH_SHORT).show();
             mParam1 = Environment.getExternalStorageDirectory().toString();
+
         }
-        Toast.makeText(getActivity(),mParam1,Toast.LENGTH_SHORT).show();
+        ((nav_menu) getActivity()).setActionBarTitle(mParam1);
+        //Toast.makeText(getActivity(),mParam1,Toast.LENGTH_SHORT).show();
         File root = new File(mParam1);
         File[] filesAndFolders = root.listFiles();
 
@@ -94,7 +130,7 @@ public class Filelist extends Fragment {
         FragmentManager activity;
         activity= getActivity().getSupportFragmentManager();
         recyclerView.setLayoutManager(new LinearLayoutManager(getActivity().getApplicationContext()));
-        recyclerView.setAdapter(new MyAdapter(getActivity().getApplicationContext(),filesAndFolders, activity));
+        recyclerView.setAdapter(new MyAdapter(getActivity().getApplicationContext(),filesAndFolders, activity, nivel));
         return view;
     }
 }

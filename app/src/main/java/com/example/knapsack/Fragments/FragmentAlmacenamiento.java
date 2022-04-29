@@ -18,6 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import com.example.knapsack.R;
+import com.example.knapsack.goku.nav_menu;
 import com.google.android.material.button.MaterialButton;
 
 public class FragmentAlmacenamiento extends Fragment {
@@ -35,15 +36,15 @@ public class FragmentAlmacenamiento extends Fragment {
 
 
                 if(checkPermission()){
-                    hola.setText("Permiso permitido");
-                    hola.setText("DEBUG");
+                  //  hola.setText("Permiso permitido");
+                   // hola.setText("DEBUG");
                     FragmentManager fragmentManager = getActivity().getSupportFragmentManager();
                     FragmentTransaction transaction = fragmentManager.beginTransaction();
                     transaction.setReorderingAllowed(true);
 
                     // Replace whatever is in the fragment_container view with this fragment
 
-                    transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance("spiderman", ""));
+                    transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance("spiderman", "superman", 0));
                     //getActivity().prueba("s");
                     // Commit the transaction
                     transaction.commit();

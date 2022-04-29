@@ -34,13 +34,14 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
     FragmentManager contexto;
     Context context;
     File[] filesAndFolders;
+    private int nivel;
 
 
-
-    public MyAdapter(Context context, File[] filesAndFolders, FragmentManager contexto){
+    public MyAdapter(Context context, File[] filesAndFolders, FragmentManager contexto, int nivel){
         this.context = context;
         this.contexto=contexto;
         this.filesAndFolders = filesAndFolders;
+        this.nivel = nivel;
     }
 
 
@@ -74,8 +75,10 @@ public class MyAdapter extends RecyclerView.Adapter<MyAdapter.ViewHolder>{
                     transaction.setReorderingAllowed(true);
 
                     // Replace whatever is in the fragment_container view with this fragment
-
-                    transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance(path, ""));
+                    File file= new File(path);
+                    String res= file.getParentFile().getName();
+                   // Toast.makeText(context, file.getParent().toString(), Toast.LENGTH_SHORT).show();
+                    transaction.replace(R.id.almacenamiento_vista, Filelist.newInstance(path, file.getParent().toString(), nivel+1));
 
                     // Commit the transaction
                     transaction.commit();

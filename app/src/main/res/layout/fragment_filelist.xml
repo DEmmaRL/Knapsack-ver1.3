@@ -15,6 +15,15 @@
         android:layout_centerInParent="true"
         android:text="ESTO ES NECESARIO"
         android:visibility="invisible" />
+
+
+    <Button
+        android:id="@+id/back_button"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+
+        android:text="back" />
+
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/recycler_view"
         android:layout_width="match_parent"
@@ -27,6 +36,7 @@
         android:id="@+id/nofiles_textview"
         android:visibility="invisible"
         android:text="NO FILES FOUND"/>
+
 
 
 </LinearLayout>

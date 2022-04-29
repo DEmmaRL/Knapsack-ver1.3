@@ -34,7 +34,7 @@ public class FileListActivity extends AppCompatActivity {
         FragmentManager activity;
         activity= this.getSupportFragmentManager();
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
-        recyclerView.setAdapter(new MyAdapter(getApplicationContext(),filesAndFolders, activity));
+       // recyclerView.setAdapter(new MyAdapter(getApplicationContext(),filesAndFolders, activity));
 
 
 

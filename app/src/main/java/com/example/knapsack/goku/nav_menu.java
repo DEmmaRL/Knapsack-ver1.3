@@ -42,9 +42,11 @@ public class nav_menu extends AppCompatActivity implements NavigationView.OnNavi
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_nav_menu);
         toolbar = findViewById(R.id.toolbar);
+
         setSupportActionBar(toolbar);
         drawerLayout = findViewById(R.id.drawer);
         navigationView = findViewById(R.id.navigationView);
+
         //lo sgt se implementa luego de haber implementado NavigationView.OnNavigationItemSelectedListener
         navigationView.setNavigationItemSelectedListener(this);
 
@@ -59,7 +61,7 @@ public class nav_menu extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.add(R.id.container_fragment,new FragmentAlmacenamiento());
         fragmentTransaction.commit();
     }
-
+/*
     @Override
     public boolean onKeyDown(int keyCode, KeyEvent event) {
         if(keyCode==event.KEYCODE_BACK)
@@ -86,7 +88,7 @@ public class nav_menu extends AppCompatActivity implements NavigationView.OnNavi
         }
         return super.onKeyDown(keyCode, event);
     }
-
+*/
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem menuItem) {
         //para cerrar automaticamente el menu
@@ -126,6 +128,9 @@ public class nav_menu extends AppCompatActivity implements NavigationView.OnNavi
         fragmentTransaction.replace(R.id.container_fragment, detallePersonaFragment);
         fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
+    }
+    public void setActionBarTitle(String title){
+        getSupportActionBar().setTitle(title);
     }
     
 }
